@@ -1,4 +1,4 @@
-var map;
+var map,placeInfoWindow,infoWindow;
       function initMap() {
         var styles =[{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"color":"#f7f1df"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#d0e3b4"}]},{"featureType":"landscape.natural.terrain","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.medical","elementType":"geometry","stylers":[{"color":"#fbd3da"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#bde6ab"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffe15f"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#efd151"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"color":"black"}]},{"featureType":"transit.station.airport","elementType":"geometry.fill","stylers":[{"color":"#cfb2db"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#a2daf2"}]}]
 
@@ -24,6 +24,7 @@ function textSearchPlaces(name) {
                  for (var i = 0; i < 15; i++) {
                     markerName[i] = results[i].name;
                  }
+                viewModel.init();
                 createMarkersForPlaces(results);
             }
             else{
@@ -53,16 +54,12 @@ function createMarkersForPlaces(places) {
             animation: google.maps.Animation.DROP,
             id: place.place_id
           });
-          // Create a single infowindow to be used with the place details information
-          // so that only one is open at once.
           var placeInfoWindow = new google.maps.InfoWindow();
-          // If a marker is clicked, do a place details search on it in the next function.
           marker.addListener('click', function() {
               getPlacesDetails(this, placeInfoWindow);
           });
           placeMarkers.push(marker);
           if (place.geometry.viewport) {
-            // Only geocodes have viewport.
             bounds.union(place.geometry.viewport);
           } else {
             bounds.extend(place.geometry.location);
@@ -71,15 +68,22 @@ function createMarkersForPlaces(places) {
         map.fitBounds(bounds);
       }
 
+      function displayInfoWindow(id){
+        console.log(id);
+        getPlacesDetails(placeMarkers[id],placeInfoWindow);
+    }
+
       function getPlacesDetails(marker, infowindow) {
     marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function () {
+                marker.setAnimation(null);
+            }, 2000);
     var service = new google.maps.places.PlacesService(map);
     var innerHTML;
     service.getDetails({
         placeId: marker.id
     }, function(place, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-            // Set the marker property on this infowindow so it isn't created again.
             infowindow.marker = marker;
             innerHTML = '<div class="infowindow">';
             if (place.name) {

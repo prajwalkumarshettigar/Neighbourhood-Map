@@ -23,6 +23,7 @@
     .list{
         color: #BBB;
         font-family: 'Maven Pro', sans-serif;
+        cursor: hand;
     }
 
       nav {

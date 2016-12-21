@@ -1,0 +1,73 @@
+<html>
+  <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <title>Neighbourhood Map</title>
+        <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/sidebar.css">
+        <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div id="wrapper">
+    <!--sidebar-->
+      <div id="sidebar-wrapper" >
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand"><h2>Mangalore City Map</h2></li>
+          <hr>
+          <li>
+          <input id="area-text" class="textBox" type="text" placeholder="Filter Markers..">
+          </li>
+          <ul class="markerNames" data-bind="foreach: markerList">
+                        <li>
+                            <span data-bind="text: $data,click:$parent.listClick"></span>
+                        </li>
+          </ul>
+         </ul>
+        </ul>
+      </div>
+    <!--main content-->
+    <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <main>
+                                <div class="toggle_menu mb-20">
+                                    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
+                                    &#9776;
+                                    </a>
+                                </div>
+                                <div id="map"></div>
+                            </main>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+        <script src="js/lib/jquery.min.js"></script>
+    <script>
+            //inline script for global variable
+            var locName = "mangaluru";
+            var markerName = new Array();
+            var placeMarkers = [];
+            var viewModel;// global viewmodel for ko bindings
+            //sidenav toggle click event
+            $("#menu-toggle")
+            .click(function (e) {
+                e.preventDefault();
+                $("#wrapper")
+                    .toggleClass("toggled");
+            });
+
+    </script>
+    <script src="js/map.js"></script>
+    <script src="js/lib/knockout-3.4.1.js"></script>
+    <script src="js/app.js"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtVXAN-9vPFUtvm1KcmHlN6rXrzElfXTQ&libraries=places&v=3&callback=initMap">
+    </script>
+
+  </body>
+</html>

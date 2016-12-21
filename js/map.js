@@ -1,0 +1,132 @@
+var map;
+      function initMap() {
+        var styles =[{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"color":"#f7f1df"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#d0e3b4"}]},{"featureType":"landscape.natural.terrain","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.medical","elementType":"geometry","stylers":[{"color":"#fbd3da"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#bde6ab"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffe15f"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#efd151"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"color":"black"}]},{"featureType":"transit.station.airport","elementType":"geometry.fill","stylers":[{"color":"#cfb2db"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#a2daf2"}]}]
+
+        // Constructor creates a new map - only center and zoom are required.
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 12.9141, lng: 74.8560},
+          zoom: 13,
+          styles: styles
+        });
+         textSearchPlaces(locName);
+
+      }
+//search for interesting places
+function textSearchPlaces(name) {
+        var bounds = map.getBounds();
+        var Query = "point of interest"+name ;
+        var placesService = new google.maps.places.PlacesService(map);
+        placesService.textSearch({
+        query: Query,
+        bounds: bounds
+        }, function(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                 for (var i = 0; i < 15; i++) {
+                    markerName[i] = results[i].name;
+                 }
+                createMarkersForPlaces(results);
+            }
+            else{
+               window.alert("We couldn't place Markers,Sorry for the inconvinence caused"+
+                            " Please Refresh the page or load after sometime");
+            }
+        });
+    }
+function createMarkersForPlaces(places) {
+        var bounds = new google.maps.LatLngBounds();
+        for (var i = 0; i < places.length; i++) {
+          var place = places[i];
+          var icon = {
+            url: place.icon,
+            size: new google.maps.Size(35, 35),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(15, 34),
+            scaledSize: new google.maps.Size(25, 25)
+          };
+
+          // Create a marker for each place.
+          var marker = new google.maps.Marker({
+            map: map,
+            icon: icon,
+            title: place.name,
+            position: place.geometry.location,
+            animation: google.maps.Animation.DROP,
+            id: place.place_id
+          });
+          // Create a single infowindow to be used with the place details information
+          // so that only one is open at once.
+          var placeInfoWindow = new google.maps.InfoWindow();
+          // If a marker is clicked, do a place details search on it in the next function.
+          marker.addListener('click', function() {
+              getPlacesDetails(this, placeInfoWindow);
+          });
+          placeMarkers.push(marker);
+          if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+        }
+        map.fitBounds(bounds);
+      }
+
+      function getPlacesDetails(marker, infowindow) {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    var service = new google.maps.places.PlacesService(map);
+    var innerHTML;
+    service.getDetails({
+        placeId: marker.id
+    }, function(place, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            // Set the marker property on this infowindow so it isn't created again.
+            infowindow.marker = marker;
+            innerHTML = '<div class="infowindow">';
+            if (place.name) {
+                innerHTML += '<div class="info"><strong>' + place.name + '</strong>';
+            }
+            if (place.formatted_address) {
+                innerHTML += '<br><p>' + place.formatted_address + '</p>';
+            }
+            if (place.formatted_phone_number) {
+                innerHTML += '<br>' + place.formatted_phone_number;
+            }
+            if (place.opening_hours) {
+                innerHTML += '<br><br><strong>Hours:</strong><br>' +
+                    place.opening_hours.weekday_text[0] + '<br>' +
+                    place.opening_hours.weekday_text[1] + '<br>' +
+                    place.opening_hours.weekday_text[2] + '<br>' +
+                    place.opening_hours.weekday_text[3] + '<br>' +
+                    place.opening_hours.weekday_text[4] + '<br>' +
+                    place.opening_hours.weekday_text[5] + '<br>' +
+                    place.opening_hours.weekday_text[6];
+            }
+            if (place.photos) {
+                innerHTML += '<br><br><img src="' + place.photos[0].getUrl({
+                    maxHeight: 100,
+                    maxWidth: 200
+                }) + '">';
+            }
+            innerHTML += '</div></div>';
+            infowindow.setContent(innerHTML);
+            infowindow.open(map, marker);
+
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick', function() {
+                marker.setAnimation(null);
+                infowindow.marker = null;
+            });
+        }
+        else {
+                //error message
+                infowindow.marker = marker;
+                innerHTML = '<div class="infowindow"><div class="info"><p>Sorry we could not find more Info:</p></div></div>';
+                infowindow.setContent(innerHTML);
+                infowindow.open(map, marker);
+                infowindow.addListener('closeclick', function() {
+                marker.setAnimation(null);
+                infowindow.marker = null;
+                });
+            }
+        });
+    }

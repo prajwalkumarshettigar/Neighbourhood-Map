@@ -17,9 +17,16 @@
         color:#777;
         font-family: 'Maven Pro', sans-serif;
         font-size: 2em;
+        margin-bottom: 2px;
 
     }
+    .wikiInfoStyle{
+        font-family: 'Maven Pro', sans-serif;
+    }
 
+    #map{
+        border-bottom: 5px;
+    }
     .textBox{
         border-radius: 5px;
         padding-left: 20px;

@@ -13,7 +13,7 @@
     <!--sidebar-->
       <div id="sidebar-wrapper" >
         <ul class="sidebar-nav">
-          <li class="sidebar-brand"><h2>Mangalore City Map</h2></li>
+          <li class="sidebar-brand"><h2>Gujarat City Map</h2></li>
           <hr>
           <li>
           <input id="area-text" class="textBox" type="text" placeholder="Filter Markers..">
@@ -30,7 +30,7 @@
     <div id="page-content-wrapper">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-md-12">
                             <main>
                                 <div class="toggle_menu mb-20">
                                     <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
@@ -41,6 +41,19 @@
                             </main>
                         </div>
                     </div>
+                    <div class="row">
+                    <div class="col-md-12">
+                                <div id="wikipedia" class="wikipedia">
+                                  <h2 class="wiki-header">Know from Wiki:</h2>
+                                  <div id="wikiInfo" data-bind="text: wikiInfo"></div>
+                                  <ul class="links" data-bind="foreach: wikiLinks">
+                                    <li>
+                                    <span><a target="_blank" href="" data-bind = "attr : {href:$data}">Read More</a></span>
+                                    </li>
+                                </ul>
+                              </div>
+                      </div>
+                     </div>
                 </div>
             </div>
 
@@ -49,7 +62,7 @@
         <script src="js/lib/jquery.min.js"></script>
     <script>
             //inline script for global variable
-            var locName = "mangaluru";
+            var locName = "Gujarat";
             var markerName = new Array();
             var placeMarkers = [];
             var viewModel;// global viewmodel for ko bindings

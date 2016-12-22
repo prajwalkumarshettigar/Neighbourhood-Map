@@ -4,7 +4,7 @@ var map,placeInfoWindow;
 
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 12.9141, lng: 74.8560},
+          center: {lat: 22.2587, lng: 71.1924},
           zoom: 13,
           styles: styles
         });

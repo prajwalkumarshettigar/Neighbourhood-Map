@@ -1,16 +1,19 @@
 var wikiSuccess = "Know from Wiki:"
 var wikiFail = "No Wikipedia resources about this place"
+var initMark =[];
 viewModel = {
         wikiName: ko.observableArray(),
         wikiLinks: ko.observableArray(),
         wikiInfo:ko.observableArray(),
         wikiFailed:ko.observable(),
         wikiHeader:ko.observable(),
-
+        q:ko.observable(''),
         markerList: ko.observableArray(),
 
         init: function(){
-            viewModel.markerList(markerName);
+            initMark = markerName.slice();
+            if(!viewModel.q())
+            viewModel.markerList(initMark);
         },
         listClick : function(data, event) {
             var name = event.target.innerHTML;
@@ -27,6 +30,19 @@ viewModel = {
             displayInfo: function(id){
                 displayInfoWindow(id);
             },
+        search: function(value) {
+            //live search with Knockout js
+                viewModel.markerList.removeAll();
+                for(var i=0;i<markerName.length;i++) {
+                if(markerName[i].toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                viewModel.markerList.push(markerName[i]);
+                placeMarkers[i].setVisible(true);
+              }
+              else{
+                placeMarkers[i].setVisible(false);
+              }
+            }
+          },
             wikiAPI: function(data){
                 var wikiUrl = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" + data + "&format=json&callback=wikiCallback";
                 var wikiRequestTimeout = setTimeout(function () {
@@ -65,4 +81,5 @@ viewModel = {
             }
 
 }
+viewModel.q.subscribe(viewModel.search);
 ko.applyBindings(viewModel);

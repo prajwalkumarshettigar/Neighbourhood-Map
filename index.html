@@ -16,7 +16,7 @@
           <li class="sidebar-brand"><h2>Gujarat City Map</h2></li>
           <hr>
           <li>
-          <input id="area-text" class="textBox" type="text" placeholder="Filter Markers..">
+          <input id="area-text" class="textBox" type="text" placeholder="Filter Markers.." data-bind="value: q, valueUpdate: 'keyup'" autocomplete="off">
           </li>
           <ul class="markerNames" data-bind="foreach: markerList">
                         <li class="list">

@@ -1,92 +1,86 @@
+<!DOCTYPE html>
 <html>
-  <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-        <title>Neighbourhood Map</title>
-        <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/sidebar.css">
-        <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
-    <div id="wrapper">
-    <!--sidebar-->
-      <div id="sidebar-wrapper" >
-        <ul class="sidebar-nav">
-          <li class="sidebar-brand"><h2>Gujarat City Map</h2></li>
-          <hr>
-          <li>
-          <input id="area-text" class="textBox" type="text" placeholder="Filter Markers.." data-bind="value: q, valueUpdate: 'keyup'" autocomplete="off">
-          </li>
-          <ul class="markerNames" data-bind="foreach: markerList">
-                        <li class="list">
-                            <span data-bind="text: $data,click:$parent.listClick"></span>
-                        </li>
-          </ul>
-         </ul>
-        </ul>
-      </div>
-    <!--main content-->
-    <div id="page-content-wrapper">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <main>
-                                <div class="toggle_menu mb-20">
-                                    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
-                                    &#9776;
-                                    </a>
-                                </div>
-                                <div id="map"></div>
-                                <div id="wikipedia" class="wikipedia">
-                                  <h2 class="wiki-header" data-bind="text: wikiHeader"></h2>
-                                    <div class="col-md-3">
-                                    <ul data-bind="foreach: wikiName">
-                                      <li data-bind="text: $data"></li>
-                                    </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                      <ul id="wikiInfo" class="wikiInfoStyle" data-bind="foreach: wikiInfo">
-                                        <li data-bind="text: $data"></li>
-                                      </ul>
-                                     </div>
-                                    <div class="col-md-3">
-                                    <ul class="links" data-bind="foreach: wikiLinks">
-                                    <li>
-                                    <span><a target="_blank" href="" data-bind = "attr : {href:$data}">Read More</a></span>
-                                    </li>
-                                </ul>
-                                  </div>
-                              </div>
-                              </main>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+      <title>Neighbourhood Map</title>
+      <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/sidebar.css">
+      <link rel="stylesheet" href="css/style.css">
+   </head>
+   <body>
+      <div id="wrapper">
+         <!--sidebar-->
+         <div id="sidebar-wrapper" >
+            <ul class="sidebar-nav">
+               <li class="sidebar-brand">
+                  <h2>Gujarat City Map</h2>
+                  <hr>
+               </li>
+               <li>
+                  <input id="area-text" class="textBox" type="text" placeholder="Filter Markers.." data-bind="value: q, valueUpdate: 'keyup'" autocomplete="off">
+               </li>
+               <li>
+                  <ul class="markerNames" data-bind="foreach: markerList">
+                     <li class="list">
+                     <span data-bind="text: $data,click:$parent.listClick"></span>
+                  </li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
+         <!--main content-->
+         <div id="page-content-wrapper">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-md-12">
+                     <main>
+                        <div class="toggle_menu mb-20">
+                           <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">&#9776;</a>
                         </div>
-
-                </div>
-
-                      </div>
-                </div>
+                        <div id="map"></div>
+                        <div id="wikipedia" class="wikipedia">
+                           <h2 class="wiki-header" data-bind="text: wikiHeader"></h2>
+                           <div class="col-md-3">
+                              <ul data-bind="foreach: wikiName">
+                                 <li data-bind="text: $data"></li>
+                              </ul>
+                           </div>
+                           <div class="col-md-6">
+                              <ul id="wikiInfo" class="wikiInfoStyle" data-bind="foreach: wikiInfo">
+                                 <li data-bind="text: $data"></li>
+                              </ul>
+                           </div>
+                           <div class="col-md-3">
+                              <ul class="links" data-bind="foreach: wikiLinks">
+                                 <li>
+                                    <span><a target="_blank" href="" data-bind = "attr : {href:$data}">Read More</a></span>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </main>
+                  </div>
+               </div>
             </div>
-
-    </div>
-
-        <script src="js/lib/jquery.min.js"></script>
-        <script src="js/global.js"></script>
-    <script>
-            //sidenav toggle click event
-            $("#menu-toggle")
-            .click(function (e) {
-                e.preventDefault();
-                $("#wrapper")
-                    .toggleClass("toggled");
-            });
-
-    </script>
-    <script src="js/map.js"></script>
-    <script src="js/lib/knockout-3.4.1.js"></script>
-    <script src="js/app.js"></script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtVXAN-9vPFUtvm1KcmHlN6rXrzElfXTQ&libraries=places&v=3&callback=initMap">
-    </script>
-
-  </body>
+         </div>
+      </div>
+      <script src="js/lib/jquery.min.js"></script>
+      <script src="js/global.js"></script>
+      <script>
+         //sidenav toggle click event
+         $("#menu-toggle")
+         .click(function (e) {
+             e.preventDefault();
+             $("#wrapper")
+             .toggleClass("toggled");
+         });
+      </script>
+      <script src="js/map.js"></script>
+      <script src="js/lib/knockout-3.4.1.js"></script>
+      <script src="js/app.js"></script>
+      <script async defer
+         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtVXAN-9vPFUtvm1KcmHlN6rXrzElfXTQ&libraries=places&v=3&callback=initMap"></script>
+   </body>
 </html>

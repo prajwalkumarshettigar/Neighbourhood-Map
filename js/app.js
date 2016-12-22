@@ -51,6 +51,9 @@ viewModel = {
             fetchWikiData: function(articleList, articleUrl, articleName){
                 if(articleName.length === 0){
                     viewModel.wikiHeader(wikiFail);
+                    viewModel.wikiName.removeAll();
+                    viewModel.wikiInfo.removeAll();
+                    viewModel.wikiLinks.removeAll();
                 }
                 else{
                     viewModel.wikiHeader(wikiSuccess);

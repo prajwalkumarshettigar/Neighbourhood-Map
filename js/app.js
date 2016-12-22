@@ -9,12 +9,13 @@ viewModel = {
         wikiHeader:ko.observable(),
         q:ko.observable(''),
         markerList: ko.observableArray(),
-
+        //initial Marker load function
         init: function(){
             initMark = markerName.slice();
             if(!viewModel.q())
             viewModel.markerList(initMark);
         },
+        //click event function for list items
         listClick : function(data, event) {
             var name = event.target.innerHTML;
             var id;//get the id of marker
@@ -31,7 +32,7 @@ viewModel = {
                 displayInfoWindow(id);
             },
         search: function(value) {
-            //live search with Knockout js
+            //live search with Knockout js, Source: stackoverflow
                 viewModel.markerList.removeAll();
                 for(var i=0;i<markerName.length;i++) {
                 if(markerName[i].toLowerCase().indexOf(value.toLowerCase()) >= 0) {
@@ -43,6 +44,7 @@ viewModel = {
               }
             }
           },
+          //wikipedia API request function
             wikiAPI: function(data){
                 var wikiUrl = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" + data + "&format=json&callback=wikiCallback";
                 var wikiRequestTimeout = setTimeout(function () {
@@ -64,6 +66,7 @@ viewModel = {
                     }
                     });
             },
+            //assign wiki response data to ko observales
             fetchWikiData: function(articleList, articleUrl, articleName){
                 if(articleName.length === 0){
                     viewModel.wikiHeader(wikiFail);

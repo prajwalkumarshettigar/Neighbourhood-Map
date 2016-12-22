@@ -2,7 +2,7 @@ var wikiFail = "No Wikipedia resources about this place"
 viewModel = {
         wikiName: ko.observableArray(),
         wikiLinks: ko.observableArray(),
-        wikiInfo:ko.observableArray(),
+        wikiInfo:ko.observable(),
 
         markerList: ko.observableArray(),
 
@@ -33,18 +33,20 @@ viewModel = {
                     url: wikiUrl,
                     dataType: "jsonp",
                     success: function (response) {
-                        var articleList = response[2]
+                        var articleList = response[2];
+                        var articleUrl = response[3];
                          viewModel.fetchWikiData(articleList);
                         clearTimeout(wikiRequestTimeout);
                     }
                     });
             },
-            fetchWikiData: function(articleList){
+            fetchWikiData: function(articleList, articleUrl){
                 if(articleList.length === 0){
                     viewModel.wikiInfo(wikiFail);
                 }
                 else{
                     viewModel.wikiInfo(articleList);
+                    viewModel.wikiLinks(articleUrl);
                 }
             }
 

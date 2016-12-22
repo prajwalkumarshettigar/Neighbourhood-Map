@@ -39,13 +39,24 @@
                                 </div>
                                 <div id="map"></div>
                                 <div id="wikipedia" class="wikipedia">
-                                  <h2 class="wiki-header">Know from Wiki:</h2>
-                                  <div id="wikiInfo" class="wikiInfoStyle" data-bind="text: wikiInfo"></div>
-                                  <ul class="links" data-bind="foreach: wikiLinks">
+                                  <h2 class="wiki-header" data-bind="text: wikiHeader"></h2>
+                                    <div class="col-md-3">
+                                    <ul data-bind="foreach: wikiName">
+                                      <li data-bind="text: $data"></li>
+                                    </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <ul id="wikiInfo" class="wikiInfoStyle" data-bind="foreach: wikiInfo">
+                                        <li data-bind="text: $data"></li>
+                                      </ul>
+                                     </div>
+                                    <div class="col-md-3">
+                                    <ul class="links" data-bind="foreach: wikiLinks">
                                     <li>
                                     <span><a target="_blank" href="" data-bind = "attr : {href:$data}">Read More</a></span>
                                     </li>
                                 </ul>
+                                  </div>
                               </div>
                               </main>
                         </div>

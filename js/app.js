@@ -1,8 +1,11 @@
+var wikiSuccess = "Know from Wiki:"
 var wikiFail = "No Wikipedia resources about this place"
 viewModel = {
         wikiName: ko.observableArray(),
         wikiLinks: ko.observableArray(),
-        wikiInfo:ko.observable(),
+        wikiInfo:ko.observableArray(),
+        wikiFailed:ko.observable(),
+        wikiHeader:ko.observable(),
 
         markerList: ko.observableArray(),
 
@@ -33,20 +36,28 @@ viewModel = {
                     url: wikiUrl,
                     dataType: "jsonp",
                     success: function (response) {
+                        var articleName = response[1];
                         var articleList = response[2];
                         var articleUrl = response[3];
-                         viewModel.fetchWikiData(articleList);
+                        console.log(articleName);
+                        console.log(articleList);
+                        console.log(articleUrl);
+
+                         viewModel.fetchWikiData(articleList, articleUrl, articleName);
                         clearTimeout(wikiRequestTimeout);
                     }
                     });
             },
-            fetchWikiData: function(articleList, articleUrl){
-                if(articleList.length === 0){
-                    viewModel.wikiInfo(wikiFail);
+            fetchWikiData: function(articleList, articleUrl, articleName){
+                if(articleName.length === 0){
+                    viewModel.wikiHeader(wikiFail);
                 }
                 else{
+                    viewModel.wikiHeader(wikiSuccess);
+                    viewModel.wikiName(articleName);
                     viewModel.wikiInfo(articleList);
                     viewModel.wikiLinks(articleUrl);
+                    console.log(viewModel.wikiLinks);
                 }
             }
 

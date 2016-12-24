@@ -24,7 +24,7 @@ function textSearchPlaces(name) {
     },
     function(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < 15; i++) {
+            for (var i = 0; i < results.length; i++) {
                 markerName[i] = results[i].name;
             }
             viewModel.init();

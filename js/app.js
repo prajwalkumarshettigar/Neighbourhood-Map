@@ -19,7 +19,7 @@ viewModel = {
     listClick: function (data, event) {
         var name = event.target.innerHTML;
         var id;//get the id of marker
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < markerName.length; i++) {
             if (name === markerName[i]) {
                 id = i; break;
             }
